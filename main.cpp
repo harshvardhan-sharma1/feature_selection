@@ -3,6 +3,14 @@
 #include <vector>
 using namespace std;
 
+void readData()
+{
+    string inputFile;
+}
+
+
+
+
 bool isPresent(vector<int>& v, int val)
 {
     for(unsigned i=0; i<v.size(); i++)
