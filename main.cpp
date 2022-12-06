@@ -1,11 +1,26 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
+#include <string>
+#include <sstream>
 using namespace std;
 
 void readData()
 {
     string inputFile;
+    int numWhiteSpace;
+    cout << "Enter file name: ";
+    cin >> inputFile;
+    string line;
+    stringstream s;
+    while(s.eof())
+    {
+        getline(line, s);
+
+    }
+
+    stringstream s(inputFile);
+
 }
 
 
