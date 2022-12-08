@@ -32,7 +32,7 @@ class FeatureSelection
             // cout << "Line: " << line << endl;
             ss >> data_val;
             classLabel.push_back(static_cast<int>(data_val));
-            
+            row.push_back(0.0);
             while(!ss.eof())
             {
                 ss >> data_val;
@@ -126,11 +126,11 @@ class FeatureSelection
 
     void searchFeatures()
     {
-        vector<int> currentSet(data.size()-1, 0); 
+        vector<int> currentSet(data.at(0).size(), 0); 
         int _accuracy, best_so_far_accuracy, feature_to_add;
         for(unsigned i=1; i< data.at(0).size(); i++)
         {
-            cout << "On the " << i << "th level of the search tree ";
+            cout << "On the " << i << "th level of the search tree\n";
             best_so_far_accuracy = 0;
             for(unsigned k = 1; k< data.at(0).size(); k++)
             {
@@ -139,7 +139,7 @@ class FeatureSelection
                     // cout << "\n--ALready present--\n";
                     continue;
                 }
-                // cout << "   Consider adding the (" << k << ") feature\n";
+                cout << "------Consider adding the (" << k << ") feature\n";
                 _accuracy = accuracy(data, currentSet, classLabel, k+1);
 
                 if(_accuracy >= best_so_far_accuracy)
@@ -148,8 +148,8 @@ class FeatureSelection
                     feature_to_add = k;
                 }
             }
-            currentSet.at(i-1) = feature_to_add;
-            cout << "added feature (" << feature_to_add << ").\n\tCurrentSet:[" << currentSet.at(0);
+            currentSet.at(i) = feature_to_add;
+            cout << "--added feature (" << feature_to_add << ").\n--CurrentSet:[" << currentSet.at(0);
             for(unsigned j=1; j<currentSet.size(); j++)
             {
                 cout << ", " << currentSet.at(j);
