@@ -5,6 +5,17 @@
 #include <sstream>
 using namespace std;
 
+int numSpaces(const string& str)
+{
+    int c=0;
+    for(unsigned i=0; i<str.size(); i++)
+    {
+        if(str.at(i)==' ')
+            c++;
+    }
+    return c;
+}
+
 void readData()
 {
     string inputFile;
@@ -13,9 +24,12 @@ void readData()
     cin >> inputFile;
     string line;
     stringstream s;
+    getline(s, line);
+    numWhiteSpace = numSpaces(line);
+
     while(s.eof())
     {
-        getline(line, s);
+        getline(s, line);
 
     }
 
