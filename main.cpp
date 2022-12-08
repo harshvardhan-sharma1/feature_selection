@@ -128,11 +128,11 @@ class FeatureSelection
     {
         vector<int> currentSet(data.size()-1, 0); 
         int _accuracy, best_so_far_accuracy, feature_to_add;
-        for(unsigned i=1; i< data.size(); i++)
+        for(unsigned i=1; i< data.at(0).size(); i++)
         {
             cout << "On the " << i << "th level of the search tree ";
             best_so_far_accuracy = 0;
-            for(unsigned k = 1; k< data.size(); k++)
+            for(unsigned k = 1; k< data.at(0).size(); k++)
             {
                 if(isPresent(currentSet, k))
                 {
