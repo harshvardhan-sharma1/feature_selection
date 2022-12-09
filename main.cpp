@@ -2,10 +2,12 @@
 #include <cstdlib>
 #include <vector>
 #include <string>
+#include <chrono>
 #include <cmath>
 #include <fstream>
 #include <sstream>
 using namespace std;
+using namespace std::chrono;
 
 class FeatureSelection
 {
@@ -27,7 +29,7 @@ class FeatureSelection
         } 
         while(!inFS.eof())
         {
-            getline(inFS, line); line += " ";
+            getline(inFS, line); line += "\n  ";
             stringstream ss(line); ss.clear(); ss.str(line);
             // cout << "Line: " << line << endl;
             ss >> data_val;
@@ -48,6 +50,18 @@ class FeatureSelection
         // {
         //     cout << i+1 << "): " << classLabel.at(i) << endl;
         // }
+    }
+
+    void printData()
+    {
+        cout << "\n-----------------------------------------------------------------------------------------\n";
+        for(unsigned i  = 0; i<data.size(); i++)
+        {{
+            for(unsigned j=0; j<data.at(i).size(); j++)
+                cout << fixed << setprecision(8) << data.at(i).at(j) << "\t";
+        }cout << endl;
+        }
+        cout << "-----------------------------------------------------------------------------------------\n";
     }
 
     bool isPresent(vector<int>& v, int val)
@@ -153,23 +167,20 @@ class FeatureSelection
                 {
                     // cout << "--Ask if (" << i+1 << ") is NN with [" << k+1 << "]\n";
                     vector<int> checkSet = currentSet; checkSet.push_back(feature_to_add);
-                    int m = checkSet.at(0); 
-                    // cout << "Considering features [";
-                    // for(unsigned ii =1; ii<checkSet.size(); ii++)
-                    //     cout << checkSet.at(ii) << " ";
-                    // cout << "]\n";
+                    int m = checkSet.at(0);
                     for(unsigned j =1; j<checkSet.size(); j++)
                     {
                         m = checkSet.at(j);
                         distance += pow((data.at(i).at(m) - data.at(k).at(m)),2);
                     }
+                    // cout << "Distance between [" << i+1 << "] - [" << k+1 << "] = " << distance << "\n"; 
                     distance = sqrt(distance);
                     if(distance < nn_distance)
                     {
                         nn_distance = distance;
                         nn_pos = k;
                         nn_label = classLabel.at(k);
-                        // cout << "For i:" << i << ", NN is obj " << nn_pos-1 << endl;
+                        // cout << "For obj(" << i+1 << "), NN is obj (" << nn_pos+1 << ")\n";
                     }
                     distance = 0;
                 }
@@ -183,7 +194,7 @@ class FeatureSelection
             }
         }
         
-        _accuracy /= classLabel.size();
+        _accuracy /= static_cast<double>(data.size());
         return _accuracy;
 
         // return (rand()%4 +1)*10;
@@ -194,7 +205,7 @@ class FeatureSelection
         // vector<int> currentSet(data.at(0).size(), 0); 
         vector<int> currentSet(1,0);
         int feature_to_add;
-        double _accuracy = 1.0, best_so_far_accuracy = 9.0;
+        double _accuracy = 0.0, best_so_far_accuracy = 0.0;
         for(unsigned i=1; i< data.at(0).size(); i++)
         {
             cout << "On the " << i << "th level of the search tree\n";
@@ -207,24 +218,24 @@ class FeatureSelection
                     continue;
                 }
                 _accuracy = accuracy(currentSet, k);
-                cout << "------Consider adding the (" << k << ") feature with acc: " << _accuracy << "\n";
-                if(_accuracy >= best_so_far_accuracy)
+                // cout << "------Consider adding the (" << k << ") feature with acc: " << _accuracy << "\n";
+                if(_accuracy > best_so_far_accuracy)
+                // if(max(_accuracy, best_so_far_accuracy) == _accuracy)
                 {
                     best_so_far_accuracy = _accuracy;
                     feature_to_add = k;
                 }
             }
             currentSet.push_back(feature_to_add);
-            cout << "--||--added feature (" << feature_to_add << ") with accuracy " << best_so_far_accuracy << ".\n";
-            cout << "--||--CurrentSet:[" << currentSet.at(1); 
+            cout << "added feature (" << feature_to_add << ")\n"; 
+            cout << "--||--CurrentSet:[" << currentSet.at(1);
             for(unsigned j=2; j<currentSet.size(); j++)
             {
                 cout << ", " << currentSet.at(j);
-            }
-            cout << "]\n\n";
+            } cout << "] with accuracy " << best_so_far_accuracy << ".\n\n";
         }
         // currentSet.push_back(1);currentSet.push_back(4);
-        // cout << "Acc: " << accuracy(currentSet, 5) << endl;
+        // cout << "Acc: " << accuracy(currentSet, 3) << endl;
 
     }
 };
@@ -233,6 +244,25 @@ class FeatureSelection
 
 int main()
 {
+    /*
+        On small dataset 50 the error rate can be 0.932,
+        when using only features 6  5  1
+    */
+
+   /*
+        On large dataset 66 the error rate can be 0.957,
+        when using only features 1   3  22
+   */
+
+  /*(
+    On small dataset 96(sue-small) the error rate can be 0.94,
+     when using only features 1  3  6
+
+    On large dataset 21(sue-large) the error rate can be 0.947,
+     when using only features 37  36  40
+
+    
+  )*/
 
     string inputFile;
     cout << "Enter file name: ";
@@ -240,6 +270,11 @@ int main()
 
     FeatureSelection* ob = new FeatureSelection();
     ob->readData(inputFile);
+    // ob->printData();
+    auto start = high_resolution_clock::now();
     ob->searchFeatures();
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop-start);
+    cout << "Time taken: " << duration.count()/1000000.0 << " seconds\n";
     return 0;
 }
