@@ -152,15 +152,16 @@ class FeatureSelection
                 if(k!=i)
                 {
                     // cout << "--Ask if (" << i+1 << ") is NN with [" << k+1 << "]\n";
-                    row_i = data.at(i); row_k = data.at(k);
                     vector<int> checkSet = currentSet; checkSet.push_back(feature_to_add);
                     int m = checkSet.at(0); 
+                    // cout << "Considering features [";
+                    // for(unsigned ii =1; ii<checkSet.size(); ii++)
+                    //     cout << checkSet.at(ii) << " ";
+                    // cout << "]\n";
                     for(unsigned j =1; j<checkSet.size(); j++)
                     {
                         m = checkSet.at(j);
-                        distance += pow((row_i.at(m) - row_k.at(m)),2);
-                        // if(i == 0 && k == 1)
-                        //     cout << "------Distance [" << row_i.at(j) << "] - [" << row_k.at(j) << "] = " << distance << "\n";
+                        distance += pow((data.at(i).at(m) - data.at(k).at(m)),2);
                     }
                     distance = sqrt(distance);
                     if(distance < nn_distance)
@@ -182,7 +183,7 @@ class FeatureSelection
             }
         }
         
-        _accuracy /= data.size();
+        _accuracy /= classLabel.size();
         return _accuracy;
 
         // return (rand()%4 +1)*10;
