@@ -19,7 +19,6 @@ class FeatureSelection
     {
         string line;
         ifstream inFS;
-
         inFS.open(inputFile);
         if(inFS.fail())
         { 
@@ -45,6 +44,10 @@ class FeatureSelection
             row.clear();
         } 
         inFS.close();
+        // for(unsigned i=0; i<classLabel.size(); i++)
+        // {
+        //     cout << i+1 << "): " << classLabel.at(i) << endl;
+        // }
     }
 
     bool isPresent(vector<int>& v, int val)
@@ -57,13 +60,29 @@ class FeatureSelection
         return false;
     }
 
-    int accuracy(vector<int>& currentSet, int feature_to_add)
+    void print(const vector<double>& v)
+    {
+        cout << "\n <";
+        for(unsigned i =0; i<v.size(); i++)
+           cout << v.at(i) << "\t";
+        cout << ">\n";
+    }
+    void print(const vector<int>& v)
+    {
+        cout << "\n <";
+        for(unsigned i =0; i<v.size(); i++)
+           cout << v.at(i) << "\t";
+        cout << ">\n";
+    }
+
+    double accuracy(vector<int>& currentSet, int feature_to_add)
     {
         double distance = 0.0;
         double nn_distance = 99999999.99999999;
         int nn_pos = 9999999;
         int nn_label = 0;
-        int _accuracy = 0;
+        double _accuracy = 0.0;
+        vector<double> row_i, row_k;
         // Testing if correct features are added in order
         // if(currentSet.size()==1)
         // {
@@ -125,39 +144,47 @@ class FeatureSelection
         // }
         for(unsigned i=0; i<data.size(); i++)
         {
-            // cout << "Looping at  (" << i+1 << ")\n";
-            // cout << "The " << i+1 << "th object is in class [" << classLabel.at(i) << "]\n\n";
+            // cout << "Looping at  (" << i+1 << ")";
+            // cout << "\nThe " << i+1 << "th object is in class [" << classLabel.at(i) << "]\n\n";
             row = data.at(i);
-            // for(unsigned k=0; k<data.size(); k++)
-            // {
-            //     if(k!=i)
-            //     {
-            //         // cout << "--Ask if (" << i << ") is NN with [" << k << "]\n";
-            //         for(unsigned j =1; j<row.size(); j++)
-            //         {
-            //             distance += pow(row.at(i) - row.at(k),2);
-            //         }
-            //         distance = sqrt(distance);
-            //         if(distance < nn_distance)
-            //         {
-            //             nn_distance = distance;
-            //             nn_pos = k;
-            //             nn_label = classLabel.at(k);
-            //         }
-            //     }
-            // }
-
+            for(unsigned k=0; k<data.size(); k++)
+            {
+                if(k!=i)
+                {
+                    // cout << "--Ask if (" << i+1 << ") is NN with [" << k+1 << "]\n";
+                    row_i = data.at(i); row_k = data.at(k);
+                    vector<int> checkSet = currentSet; checkSet.push_back(feature_to_add);
+                    int m = checkSet.at(0); 
+                    for(unsigned j =1; j<checkSet.size(); j++)
+                    {
+                        m = checkSet.at(j);
+                        distance += pow((row_i.at(m) - row_k.at(m)),2);
+                        // if(i == 0 && k == 1)
+                        //     cout << "------Distance [" << row_i.at(j) << "] - [" << row_k.at(j) << "] = " << distance << "\n";
+                    }
+                    distance = sqrt(distance);
+                    if(distance < nn_distance)
+                    {
+                        nn_distance = distance;
+                        nn_pos = k;
+                        nn_label = classLabel.at(k);
+                        // cout << "For i:" << i << ", NN is obj " << nn_pos-1 << endl;
+                    }
+                    distance = 0;
+                }
+            }
+            cout << "---------->Object " << i+1 << "[" << classLabel.at(i) << "]\n";
+            cout << "---------->nn is object " << nn_pos << " which is in class " << nn_label << "\n";
+            
             if(nn_label == classLabel.at(i))
             {
                 _accuracy++;
             }
-            // cout << endl;
         }
-           _accuracy /= data.size();
-           return _accuracy;
+        
+        _accuracy /= data.size();
+        return _accuracy;
 
-        
-        
         // return (rand()%4 +1)*10;
     }
 
@@ -165,30 +192,29 @@ class FeatureSelection
     {
         // vector<int> currentSet(data.at(0).size(), 0); 
         vector<int> currentSet(1,0);
-        int _accuracy, best_so_far_accuracy, feature_to_add;
+        int feature_to_add;
+        double _accuracy = 1.0, best_so_far_accuracy = 9.0;
         for(unsigned i=1; i< data.at(0).size(); i++)
         {
-            // cout << "On the " << i << "th level of the search tree\n";
+            cout << "On the " << i << "th level of the search tree\n";
             best_so_far_accuracy = 0;
             for(unsigned k = 1; k< data.at(0).size(); k++)
             {
                 
                 if(isPresent(currentSet, k))
                 {
-                    // cout << "\n--ALready present--\n";
                     continue;
                 }
-                cout << "------Consider adding the (" << k << ") feature\n";
                 _accuracy = accuracy(currentSet, k);
+                cout << "------Consider adding the (" << k << ") feature with acc: " << _accuracy << "\n";
                 if(_accuracy >= best_so_far_accuracy)
                 {
                     best_so_far_accuracy = _accuracy;
                     feature_to_add = k;
                 }
             }
-            // currentSet.at(i) = feature_to_add;
             currentSet.push_back(feature_to_add);
-            cout << "--added feature (" << feature_to_add << ").\n";
+            cout << "--added feature (" << feature_to_add << ") with accuracy " << best_so_far_accuracy << ".\n";
             cout << "--CurrentSet:[" << currentSet.at(0); 
             for(unsigned j=1; j<currentSet.size(); j++)
             {
@@ -211,6 +237,5 @@ int main()
     FeatureSelection* ob = new FeatureSelection();
     ob->readData(inputFile);
     ob->searchFeatures();
-    
     return 0;
 }
