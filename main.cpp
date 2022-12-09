@@ -173,8 +173,8 @@ class FeatureSelection
                     distance = 0;
                 }
             }
-            cout << "---------->Object " << i+1 << "[" << classLabel.at(i) << "]\n";
-            cout << "---------->nn is object " << nn_pos << " which is in class " << nn_label << "\n";
+            // cout << "---------->Object " << i+1 << "[" << classLabel.at(i) << "]\n";
+            // cout << "---------->nn is object " << nn_pos << " which is in class " << nn_label << "\n";
             
             if(nn_label == classLabel.at(i))
             {
@@ -214,14 +214,17 @@ class FeatureSelection
                 }
             }
             currentSet.push_back(feature_to_add);
-            cout << "--added feature (" << feature_to_add << ") with accuracy " << best_so_far_accuracy << ".\n";
-            cout << "--CurrentSet:[" << currentSet.at(0); 
-            for(unsigned j=1; j<currentSet.size(); j++)
+            cout << "--||--added feature (" << feature_to_add << ") with accuracy " << best_so_far_accuracy << ".\n";
+            cout << "--||--CurrentSet:[" << currentSet.at(1); 
+            for(unsigned j=2; j<currentSet.size(); j++)
             {
                 cout << ", " << currentSet.at(j);
             }
-            cout << "]\n";
+            cout << "]\n\n";
         }
+        // currentSet.push_back(1);currentSet.push_back(4);
+        // cout << "Acc: " << accuracy(currentSet, 5) << endl;
+
     }
 };
 
