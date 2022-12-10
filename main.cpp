@@ -205,11 +205,11 @@ class FeatureSelection
         // vector<int> currentSet(data.at(0).size(), 0); 
         vector<int> currentSet(1,0);
         int feature_to_add;
-        double _accuracy = 0.0, best_so_far_accuracy = 0.0;
+        double _accuracy = 0.00, best_so_far_accuracy = 0.00;
         for(unsigned i=1; i< data.at(0).size(); i++)
         {
             cout << "On the " << i << "th level of the search tree\n";
-            best_so_far_accuracy = 0;
+            best_so_far_accuracy = 0.00;
             for(unsigned k = 1; k< data.at(0).size(); k++)
             {
                 
@@ -238,6 +238,57 @@ class FeatureSelection
         // cout << "Acc: " << accuracy(currentSet, 3) << endl;
 
     }
+//added findAndDelete and backwardElimination
+//recheck backwardElimination
+    void findAndDelete(vector<int>& v, int x)
+    {
+        unsigned int i;
+        for(i=0; i<v.size(); i++)
+        {
+            if(v.at(i)==x)
+                break;
+        }
+        v.at(i) = v.at(v.size()-1);
+        v.pop_back();
+    }
+
+
+    void backwardElimination()
+    {
+        // vector<int> currentSet(data.at(0).size(), 0); 
+        vector<int> currentSet(1,0);
+
+        for(unsigned i =0; i<classLabel.size(); i++)
+            currentSet.push_back(i+1);
+        
+        vector<int> checkSet = currentSet;
+        int feature_to_delete;
+        double _accuracy = 0.00, best_so_far_accuracy = 0.00;
+        for(unsigned i = 1; i<data.at(0).size(); i++)
+        {
+            cout << "On the " << i << "th level of the search tree\n";
+            best_so_far_accuracy = 0.00;
+            for(unsigned k =1; k<currentSet.size(); k++)
+            {
+                if(!isPresent(currentSet, k))
+                {
+                    continue;
+                }
+                feature_to_delete = currentSet.at(k);
+                findAndDelete(checkSet, k);
+                _accuracy = accuracy(checkSet, k);
+                if(_accuracy > best_so_far_accuracy)
+                {
+                    best_so_far_accuracy = _accuracy;
+                    currentSet = checkSet;
+                }
+                cout << "Consider deleting feature " << k << "getting accuracy: " << _accuracy << "\n";
+            }
+
+            // currentSet = checkSet;
+        }
+        
+    }
 };
 
 
@@ -264,17 +315,28 @@ int main()
     
   )*/
 
-    string inputFile;
-    cout << "Enter file name: ";
-    cin >> inputFile;
+    // string inputFile;
+    // cout << "Enter file name: ";
+    // cin >> inputFile;
 
     FeatureSelection* ob = new FeatureSelection();
-    ob->readData(inputFile);
-    // ob->printData();
-    auto start = high_resolution_clock::now();
-    ob->searchFeatures();
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop-start);
-    cout << "Time taken: " << duration.count()/1000000.0 << " seconds\n";
+    // ob->readData(inputFile);
+    // // ob->printData();
+    // auto start = high_resolution_clock::now();
+    // ob->searchFeatures();
+    // auto stop = high_resolution_clock::now();
+    // auto duration = duration_cast<microseconds>(stop-start);
+    // cout << "Time taken: " << duration.count()/1000000.0 << " seconds\n";
+
+    vector<int> v;
+    for(unsigned i=0; i<7; i++)
+        v.push_back(i);
+    ob->print(v);
+    ob->findAndDelete(v, 4); ob->print(v);
+    ob->findAndDelete(v,1); ob->print(v);
+    ob->findAndDelete(v,5); ob->print(v);
+    ob->findAndDelete(v,3); ob->print(v);
+    ob->findAndDelete(v, 2); ob->print(v);
+
     return 0;
 }
