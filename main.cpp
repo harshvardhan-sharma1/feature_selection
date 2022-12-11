@@ -75,22 +75,15 @@ class FeatureSelection
         return false;
     }
 
-    void print(const vector<double>& v)
+    void printSet(const vector<int>& v)
     {
-        cout << "\n <";
-        for(unsigned i =0; i<v.size(); i++)
-           cout << v.at(i) << "\t";
-        cout << ">\n";
-    }
-    void print(const vector<int>& v)
-    {
-        cout << "\n <";
-        for(unsigned i =0; i<v.size(); i++)
-           cout << v.at(i) << "\t";
-        cout << ">\n";
+        cout << "\n[" << v.at(1);
+        for(unsigned i =2; i<v.size(); i++)
+           cout << ", " << v.at(i);
+        cout << "]\n";
     }
 
-    double accuracy(vector<int>& currentSet, int feature_to_add)
+    double accuracy(vector<int>& currentSet, int feature_number, const string& searchType)
     {
         double distance = 0.000;
         double nn_distance = 99999999.99999999;
@@ -106,7 +99,11 @@ class FeatureSelection
                 distance = 0.000;
                 if(k!=i)
                 {
-                    vector<int> checkSet = currentSet; checkSet.push_back(feature_to_add);
+                    vector<int> checkSet = currentSet; 
+                    if(searchType == "forward")
+                        checkSet.push_back(feature_number);
+                    else if(searchType == "backward")
+                        findAndDelete(checkSet, feature_number);
                     int m = checkSet.at(0);
                     for(unsigned j =1; j<checkSet.size(); j++)
                     {
@@ -134,14 +131,14 @@ class FeatureSelection
 
     }
 
-    void searchFeatures()
+    void forwardSelection()
     {
         vector<int> currentSet(1,0);
         int feature_to_add;
         double _accuracy = 0.00, best_so_far_accuracy = 0.00;
         for(unsigned i=1; i< data.at(0).size(); i++)
         {
-            // cout << "On the " << i << "th level of the search tree\n";
+            cout << "On the " << i << "th level of the search tree\n";
             best_so_far_accuracy = 0.00;
             for(unsigned k = 1; k< data.at(0).size(); k++)
             {
@@ -150,8 +147,8 @@ class FeatureSelection
                 {
                     continue;
                 }
-                _accuracy = accuracy(currentSet, k);
-                // cout << "------Consider adding the (" << k << ") feature with acc: " << _accuracy << "\n";
+                _accuracy = accuracy(currentSet, k, "forward");
+                cout << "------Consider adding the (" << k << ") feature with acc: " << _accuracy << "\n";
                 if(_accuracy > best_so_far_accuracy)
                 {
                     best_so_far_accuracy = _accuracy;
@@ -164,19 +161,16 @@ class FeatureSelection
                 overall_most_Accurate = currentSet;
                 overall_best_accuracy = best_so_far_accuracy;
             }
-            // cout << "added feature (" << feature_to_add << ")\n"; 
-            // cout << "--||--CurrentSet:[" << currentSet.at(1);
-            // for(unsigned j=2; j<currentSet.size(); j++)
-            // {
-            //     cout << ", " << currentSet.at(j);
-            // } cout << "] with accuracy " << best_so_far_accuracy << ".\n\n";
+            cout << "added feature (" << feature_to_add << ")\n"; 
+            cout << "--||--CurrentSet:[" << currentSet.at(1);
+            for(unsigned j=2; j<currentSet.size(); j++)
+            {
+                cout << ", " << currentSet.at(j);
+            } cout << "] with accuracy " << best_so_far_accuracy << ".\n\n";
         }
-        cout << "\n\n Therefore most accurate with accuracy of " << overall_best_accuracy;
-        print(overall_most_Accurate);
 
     }
-//added findAndDelete and backwardElimination
-//recheck backwardElimination
+
     void findAndDelete(vector<int>& v, int x)
     {
         unsigned int i;
@@ -187,44 +181,53 @@ class FeatureSelection
         }
         v.at(i) = v.at(v.size()-1);
         v.pop_back();
+        sort(v.begin(), v.end());
     }
-
 
     void backwardElimination()
     {
-        // vector<int> currentSet(data.at(0).size(), 0); 
         vector<int> currentSet(1,0);
-
-        for(unsigned i =0; i<classLabel.size(); i++)
-            currentSet.push_back(i+1);
+        for(unsigned i =1; i<data.at(0).size(); i++)
+            currentSet.push_back(i);
         
-        vector<int> checkSet = currentSet;
-        int feature_to_delete;
+        vector<int> checkSet = currentSet; int feature_to_delete;
         double _accuracy = 0.00, best_so_far_accuracy = 0.00;
-        for(unsigned i = 1; i<data.at(0).size(); i++)
+        
+        int i = 1;
+        while(currentSet.size()>1)
         {
-            cout << "On the " << i << "th level of the search tree\n";
             best_so_far_accuracy = 0.00;
-            for(unsigned k =1; k<currentSet.size(); k++)
+            cout << "On the " << i << "th level of the search tree\n";
+            for(unsigned k = 1; k<currentSet.size(); k++)
             {
-                if(!isPresent(currentSet, k))
+                if(!isPresent(currentSet, currentSet.at(k)))
                 {
                     continue;
                 }
-                feature_to_delete = currentSet.at(k);
-                findAndDelete(checkSet, k);
-                _accuracy = accuracy(checkSet, k);
+                _accuracy = accuracy(currentSet, currentSet.at(k), "backward");
+                cout << "------Consider deleting feature(" << currentSet.at(k) << "),which gives accuracy: " << _accuracy << "\n";
                 if(_accuracy > best_so_far_accuracy)
                 {
                     best_so_far_accuracy = _accuracy;
-                    currentSet = checkSet;
+                    feature_to_delete = currentSet.at(k);
                 }
-                cout << "Consider deleting feature " << k << "getting accuracy: " << _accuracy << "\n";
+            }
+            findAndDelete(currentSet,feature_to_delete);
+
+            if(best_so_far_accuracy > overall_best_accuracy) 
+            {
+                overall_most_Accurate = currentSet;
+                overall_best_accuracy = best_so_far_accuracy;
             }
 
-            // currentSet = checkSet;
+            cout << "Deleted feature (" << feature_to_delete << ")\n"; 
+            cout << "--||--CurrentSet:[" << currentSet.at(0);
+            for(unsigned j=1; j<currentSet.size(); j++)
+            {
+                cout << ", " << currentSet.at(j);
+            } cout << "] with accuracy " << best_so_far_accuracy << ".\n\n";
+            i++;
         }
-        
     }
 };
 
@@ -232,39 +235,35 @@ class FeatureSelection
 
 int main()
 {
-    /*
-        On small dataset 50 the error rate can be 0.932,
-        when using only features 6  5  1
-    */
 
-   /*
-        On large dataset 66 the error rate can be 0.957,
-        when using only features 1   3  22
-   */
-
-  /*(
-    On small dataset 96(sue-small) the error rate can be 0.94,
-     when using only features 1  3  6
-
-    On large dataset 21(sue-large) the error rate can be 0.947,
-     when using only features 37  36  40
-
-    
-  )*/
-
-    string inputFile;
+    string inputFile; int choice;
     cout << "Enter file name: ";
     cin >> inputFile;
 
     FeatureSelection* ob = new FeatureSelection();
     ob->readData(inputFile);
     // ob->printData();
+    cout << "Choose one of the following choices. Enter either '1' or '2' only\n1. Forward Selection\t2. Backward Elimination\n";
+    cin >> choice;
+    
     auto start = high_resolution_clock::now();
-    ob->searchFeatures();
+    if(choice == 1)
+        ob->forwardSelection();
+    else if(choice == 2)
+        ob->backwardElimination();
+    else
+    {
+        cout << "Invalid choice\n";
+        return 1;
+    }
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop-start);
-    cout << "Time taken: " << duration.count()/1000000.0 << " seconds\n";
+    
+    cout << "\n\n The best set of features for the provided dataset is:";
+    ob->printSet(ob->overall_most_Accurate);
+    cout << ", with an accuracy of " << ob->overall_best_accuracy;
 
-    // cout << "Class Label size: " << ob->classLabel.size() << "\nData.size(): " << ob->data.size() << "\nObject.size(): " << ob->data.at(0).size() << endl;
+    cout << "\n\n--<<Time taken: " << duration.count()/1000000.0 << " seconds>>--\n";
+
     return 0;
 }
