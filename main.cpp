@@ -48,21 +48,6 @@ class FeatureSelection
             row.clear();
         } 
         inFS.close();
-        // for(unsigned i=0; i<classLabel.size(); i++)
-        // {
-        //     cout << i+1 << "): " << classLabel.at(i) << endl;
-        // }
-    }
-
-    void printData()
-    {
-        cout << "\n-----------------------------------------------------------------------------------------\n";
-        for(unsigned i  = 0; i<data.size(); i++)
-        {{
-            for(unsigned j=0; j<data.at(i).size(); j++)
-                cout << fixed << setprecision(8) << data.at(i).at(j) << "\t";
-        }cout << endl;}
-        cout << "-----------------------------------------------------------------------------------------\n";
     }
 
     bool isPresent(vector<int>& v, int val)
@@ -128,7 +113,6 @@ class FeatureSelection
         
         _accuracy /= static_cast<double>(data.size());
         return _accuracy;
-
     }
 
     void forwardSelection()
@@ -221,8 +205,10 @@ class FeatureSelection
             }
 
             cout << "Deleted feature (" << feature_to_delete << ")\n"; 
-            cout << "--||--CurrentSet:[" << currentSet.at(0);
-            for(unsigned j=1; j<currentSet.size(); j++)
+            cout << "--||--CurrentSet:[";
+            if(currentSet.size()>=2) 
+                cout << currentSet.at(1);
+            for(unsigned j=2; j<currentSet.size(); j++)
             {
                 cout << ", " << currentSet.at(j);
             } cout << "] with accuracy " << best_so_far_accuracy << ".\n\n";
@@ -243,9 +229,10 @@ int main()
     FeatureSelection* ob = new FeatureSelection();
     ob->readData(inputFile);
     // ob->printData();
+    cout << "The data has " << ob->data.at(0).size()-1 << "features (not including class label), with " << ob->data.size() << " instances.\n";
     cout << "Choose one of the following choices. Enter either '1' or '2' only\n1. Forward Selection\t2. Backward Elimination\n";
     cin >> choice;
-    
+    cout << endl << endl;
     auto start = high_resolution_clock::now();
     if(choice == 1)
         ob->forwardSelection();
@@ -259,9 +246,9 @@ int main()
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop-start);
     
-    cout << "\n\n The best set of features for the provided dataset is:";
+    cout << "\n\nThe best set of features for the provided dataset is:";
     ob->printSet(ob->overall_most_Accurate);
-    cout << ", with an accuracy of " << ob->overall_best_accuracy;
+    cout << "with an accuracy of " << ob->overall_best_accuracy;
 
     cout << "\n\n--<<Time taken: " << duration.count()/1000000.0 << " seconds>>--\n";
 
