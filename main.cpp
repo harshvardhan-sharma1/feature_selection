@@ -122,7 +122,8 @@ class FeatureSelection
         double _accuracy = 0.00, best_so_far_accuracy = 0.00;
         for(unsigned i=1; i< data.at(0).size(); i++)
         {
-            // cout << "On the " << i << "th level of the search tree\n";
+            // if(i<3 || i+3 == data.at(0).size())
+            //     cout << "On the " << i << "th level of the search tree\n";
             best_so_far_accuracy = 0.00;
             for(unsigned k = 1; k< data.at(0).size(); k++)
             {
@@ -132,7 +133,8 @@ class FeatureSelection
                     continue;
                 }
                 _accuracy = accuracy(currentSet, k, "forward");
-                // cout << "----Consider adding the (" << k << ") feature with acc: " << _accuracy << "\n";
+                // if(i<3 || data.at(0).size()-i <= 2)
+                //     cout << "----Consider adding the (" << k << ") feature with acc: " << _accuracy << "\n";
                 if(_accuracy > best_so_far_accuracy)
                 {
                     best_so_far_accuracy = _accuracy;
@@ -145,12 +147,15 @@ class FeatureSelection
                 overall_most_Accurate = currentSet;
                 overall_best_accuracy = best_so_far_accuracy;
             }
-            // cout << "added feature (" << feature_to_add << ")\n"; 
-            // cout << "--||--CurrentSet:[" << currentSet.at(1);
-            // for(unsigned j=2; j<currentSet.size(); j++)
+            // if(i<3 || i+3 == data.at(0).size())
             // {
-            //     cout << ", " << currentSet.at(j);
-            // } cout << "] with accuracy " << best_so_far_accuracy << ".\n\n";
+            //     cout << "added feature (" << feature_to_add << ")\n"; 
+            //     cout << "--||--CurrentSet:[" << currentSet.at(1);
+            //     for(unsigned j=2; j<currentSet.size(); j++)
+            //     {
+            //         cout << ", " << currentSet.at(j);
+            //     } cout << "] with accuracy " << best_so_far_accuracy << ".\n\n";
+            // }
         }
 
     }
@@ -181,7 +186,8 @@ class FeatureSelection
         while(currentSet.size()>1)
         {
             best_so_far_accuracy = 0.00;
-            // cout << "On the " << i << "th level of the search tree\n";
+            // if(i<3 || currentSet.size() <= 2)
+            //     cout << "On the " << i << "th level of the search tree\n";
             for(unsigned k = 1; k<currentSet.size(); k++)
             {
                 if(!isPresent(currentSet, currentSet.at(k)))
@@ -189,7 +195,8 @@ class FeatureSelection
                     continue;
                 }
                 _accuracy = accuracy(currentSet, currentSet.at(k), "backward");
-                // cout << "----Consider deleting feature(" << currentSet.at(k) << "),which gives accuracy: " << _accuracy << "\n";
+                // if(i<3 || currentSet.size() <= 2)
+                //     cout << "----Consider deleting feature(" << currentSet.at(k) << "),which gives accuracy: " << _accuracy << "\n";
                 if(_accuracy > best_so_far_accuracy)
                 {
                     best_so_far_accuracy = _accuracy;
@@ -203,15 +210,17 @@ class FeatureSelection
                 overall_most_Accurate = currentSet;
                 overall_best_accuracy = best_so_far_accuracy;
             }
-
-            // cout << "Deleted feature (" << feature_to_delete << ")\n"; 
-            // cout << "--||--CurrentSet:[";
-            // if(currentSet.size()>=2) 
-            //     cout << currentSet.at(1);
-            // for(unsigned j=2; j<currentSet.size(); j++)
+            // if(i<3 || currentSet.size() <= 2)
             // {
-            //     cout << ", " << currentSet.at(j);
-            // } cout << "] with accuracy " << best_so_far_accuracy << ".\n\n";
+            //     cout << "Deleted feature (" << feature_to_delete << ")\n"; 
+            //     cout << "--||--CurrentSet:[";
+            //     if(currentSet.size()>=2) 
+            //         cout << currentSet.at(1);
+            //     for(unsigned j=2; j<currentSet.size(); j++)
+            //     {
+            //         cout << ", " << currentSet.at(j);
+            //     } cout << "] with accuracy " << best_so_far_accuracy << ".\n\n";
+            // }
             i++;
         }
     }
