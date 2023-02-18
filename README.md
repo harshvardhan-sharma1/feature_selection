@@ -13,13 +13,9 @@ To run the program please typle in ```main.cpp``` which will then allow you to u
 
 In Figure 1, we see the result of running forward selection on CS170_Small_Data__50.txt, which was the file assigned to me. 
 
-<insert Fig1 here>
-
 ![alt text][nexpanded]
 
-[nexpanded]: https://imagelink.com "Img name"
-
-
+[nexpanded]: https://github.com/harshvardhan-sharma1/feature_selection/blob/8cf25e672dc1877aa036db201a311effa1c1437e/images/ForwardSelection%20small.png "Figure 1: Accuracy of increasingly large subsets of features discovered by forward selection."
 
 Figure 1: Accuracy of increasingly large subsets of features discovered by forward selection.
 
@@ -28,7 +24,10 @@ At the beginning of the search, we have no features (denoted by [ ] ) so I repor
 
 Next, as shown in Figure 2, I ran backward elimination on CS170_Small_Data__50.txt
 
-<<insert Figure 2 here>>
+
+![alt text][nexpanded]
+
+[nexpanded]: https://github.com/harshvardhan-sharma1/feature_selection/blob/8cf25e672dc1877aa036db201a311effa1c1437e/images/BackwarElim%20small.png "Figure 2: Accuracy of increasingly small subsets of features discovered by backward selection"
 
 Figure 2: Accuracy of increasingly small subsets of features discovered by backward selection
 
@@ -45,23 +44,23 @@ I believe that features ‘1’ and ‘6’’ are the best features for this pr
 
 Next, as shown in Figure 3,  I ran forward selection on CS170_Large_Data__66.txt
 
+
+
+![alt text][nexpanded]
+
+[nexpanded]: [link](https://github.com/harshvardhan-sharma1/feature_selection/blob/8cf25e672dc1877aa036db201a311effa1c1437e/images/ForwardSelection%20large.png) "Figure 3: Accuracy of increasingly large subsets of features discovered by forward selection"
 Figure 3: Accuracy of increasingly large subsets of features discovered by forward selection
 
 
 At the beginning of the search, we have no features (denoted by [ ] ) so I reported the default rate, which was 81.7%. Adding feature ‘1’ did not much change the accuracy as it decreased to 81.5%. Adding feature ‘22’ gave us an incredible boost in accuracy, as it increased to  96.9%. Thereafter, each additional feature added reduced the accuracy, until we have the full set of features, which gives us an accuracy of 72.8%. 
 
 
-
-
-
-
-
-
-
-
-
-
 Next, as shown in Figure 4, I ran backward elimination on CS170_Large_Data__66.txt
+
+
+![alt text][nexpanded]
+
+[nexpanded]: https://github.com/harshvardhan-sharma1/feature_selection/blob/8cf25e672dc1877aa036db201a311effa1c1437e/images/BackwarElim%20large.png   "Figure4: Accuracy of increasingly small subsets of features discovered by backward selection" 
 
 Figure4: Accuracy of increasingly small subsets of features discovered by backward selection
 
@@ -80,6 +79,10 @@ I found different results for forward and backward elimination for the large dat
 I implemented the search in C++ (version 11) and ran all experiments on a laptop with an Apple M1 Pro chip and 16 gigs of main memory. In table 1 I report the running time for the four searches I conducted.
 TABLE 1:
 
+
+![alt text][nexpanded]
+
+[nexpanded]: link "Img name"
 
 Small dataset
 Large dataset
