@@ -15,7 +15,7 @@ In Figure 1, we see the result of running forward selection on CS170_Small_Data_
 
 ![alt text][nexpanded]
 
-![] images/ForwardSelection_small.png
+![] (images/ForwardSelection_small.png)
 Figure 1: Accuracy of increasingly large subsets of features discovered by forward selection.
 
 
@@ -58,7 +58,7 @@ Next, as shown in Figure 4, I ran backward elimination on CS170_Large_Data__66.t
 
 
 ![alt text][nexpanded]
-![] images/BackwardElim_large.png
+![] (images/BackwardElim_large.png)
 
 Figure4: Accuracy of increasingly small subsets of features discovered by backward selection
 
