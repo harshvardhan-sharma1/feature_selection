@@ -15,7 +15,7 @@ In Figure 1, we see the result of running forward selection on CS170_Small_Data_
 
 ![alt text][nexpanded]
 
-[nexpanded]: https://github.com/harshvardhan-sharma1/feature_selection/blob/8cf25e672dc1877aa036db201a311effa1c1437e/images/ForwardSelection%20small.png "Figure 1: Accuracy of increasingly large subsets of features discovered by forward selection."
+[nexpanded]: https://github.com/harshvardhan-sharma1/feature_selection/blob/main/images/ForwardSelection%20small.png "Figure 1: Accuracy of increasingly large subsets of features discovered by forward selection."
 
 Figure 1: Accuracy of increasingly large subsets of features discovered by forward selection.
 
@@ -27,7 +27,7 @@ Next, as shown in Figure 2, I ran backward elimination on CS170_Small_Data__50.t
 
 ![alt text][nexpanded]
 
-[nexpanded]: https://github.com/harshvardhan-sharma1/feature_selection/blob/8cf25e672dc1877aa036db201a311effa1c1437e/images/BackwarElim%20small.png "Figure 2: Accuracy of increasingly small subsets of features discovered by backward selection"
+[nexpanded]: https://github.com/harshvardhan-sharma1/feature_selection/blob/main/images/BackwarElim%20small.png "Figure 2: Accuracy of increasingly small subsets of features discovered by backward selection"
 
 Figure 2: Accuracy of increasingly small subsets of features discovered by backward selection
 
@@ -48,7 +48,7 @@ Next, as shown in Figure 3,  I ran forward selection on CS170_Large_Data__66.txt
 
 ![alt text][nexpanded]
 
-[nexpanded]: [link](https://github.com/harshvardhan-sharma1/feature_selection/blob/8cf25e672dc1877aa036db201a311effa1c1437e/images/ForwardSelection%20large.png) "Figure 3: Accuracy of increasingly large subsets of features discovered by forward selection"
+[nexpanded]: [link](https://github.com/harshvardhan-sharma1/feature_selection/blob/main/images/ForwardSelection%20large.png) "Figure 3: Accuracy of increasingly large subsets of features discovered by forward selection"
 Figure 3: Accuracy of increasingly large subsets of features discovered by forward selection
 
 
@@ -60,7 +60,7 @@ Next, as shown in Figure 4, I ran backward elimination on CS170_Large_Data__66.t
 
 ![alt text][nexpanded]
 
-[nexpanded]: https://github.com/harshvardhan-sharma1/feature_selection/blob/8cf25e672dc1877aa036db201a311effa1c1437e/images/BackwarElim%20large.png   "Figure4: Accuracy of increasingly small subsets of features discovered by backward selection" 
+[nexpanded]: https://github.com/harshvardhan-sharma1/feature_selection/blob/main/images/BackwarElim%20large.png   "Figure4: Accuracy of increasingly small subsets of features discovered by backward selection" 
 
 Figure4: Accuracy of increasingly small subsets of features discovered by backward selection
 
