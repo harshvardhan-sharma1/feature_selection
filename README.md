@@ -1,10 +1,24 @@
-#Feature Selection using Nearest Neighbor algorithm
+# Feature Selection using Nearest Neighbor algorithm
 
-##EXPERIMENTS ON SMALL DATASET
+
+## About the Code
+
+Assignment 2 for CS170: Intro to Artificial Intelligence at UCR. We were tasked to create a program that would take a given dataset and find the most accurate set of features for it. The intention of this project was to show how different types of feature searches (when used by mixing leave-one-out cross validation with the nearest neighbor classifier algorithm) could be advantageous, depending on the size of the dataset given.
+
+To run the program please typle in ```main.cpp``` which will then allow you to use the GUI interface to enter a dataset and find the most accurate set of features.
+
+## Results
+
+#### EXPERIMENTS ON SMALL DATASET
 
 In Figure 1, we see the result of running forward selection on CS170_Small_Data__50.txt, which was the file assigned to me. 
 
-<<insert Figure 1 here>>
+<insert Fig1 here>
+
+![alt text][nexpanded]
+
+[nexpanded]: https://imagelink.com "Img name"
+
 
 
 Figure 1: Accuracy of increasingly large subsets of features discovered by forward selection.
@@ -14,7 +28,7 @@ At the beginning of the search, we have no features (denoted by [ ] ) so I repor
 
 Next, as shown in Figure 2, I ran backward elimination on CS170_Small_Data__50.txt
 
-<<insert Figure 1 here>>
+<<insert Figure 2 here>>
 
 Figure 2: Accuracy of increasingly small subsets of features discovered by backward selection
 
@@ -23,11 +37,11 @@ At the beginning of the search, we had all features which were 84.4% accurate. T
 Deleting feature ‘4’ further increased the accuracy to 95.4%. Thereafter, each additional feature deletion reduced the accuracy, until we have the empty set of features, which gives us an accuracy of 83.2%.
 
 
-Conclusion For Small Dataset: 
+#### Conclusion For Small Dataset: 
 I believe that features ‘1’ and ‘6’’ are the best features for this problem. There is very weak evidence that feature ‘4’ might be useful, but that needs further investigation. If we deploy this {1,6} model, I believe the accuracy will be about 95.4%.
  
 
-EXPERIMENTS ON LARGE DATASET
+### EXPERIMENTS ON LARGE DATASET
 
 Next, as shown in Figure 3,  I ran forward selection on CS170_Large_Data__66.txt
 
@@ -56,13 +70,13 @@ At the beginning of the search, we had all features which were 72.8% accurate. T
 Thereafter, each additional feature deletion reduced the accuracy, until we have the empty set of features, which gives us an accuracy of 81.7%.
 
 
-Conclusion For Large Dataset: 
+#### Conclusion For Large Dataset: 
 I found different results for forward and backward elimination for the large dataset, and I found that the backward elimination is not as accurate as forward elimination. However, feature ‘1’ appears for both algorithms. Hence, I believe that features ‘1’ and ‘22’ are good features for this problem. If we deploy this {1,22} model, I believe the accuracy will be about 96.9%.
  
 
 
 
-Computational effort for search:
+### Computational effort for search:
 I implemented the search in C++ (version 11) and ran all experiments on a laptop with an Apple M1 Pro chip and 16 gigs of main memory. In table 1 I report the running time for the four searches I conducted.
 TABLE 1:
 
@@ -79,7 +93,7 @@ approx 18.73 minutes
 Table1: contains the runtime for the four searched conducted with nearest neighbor algorithm
 
 
-Traceback
+##### Traceback
 Below I show the search trace for Forward Selection on the small dataset :-
 
 Enter file name: CS170_Small_Data__50.txt
@@ -171,4 +185,5 @@ The best set of features for the provided dataset is:
 with an accuracy of 0.969
 
 --<<Time taken: 808.237 seconds>>--
+
 
