@@ -12,14 +12,15 @@ To run the program please typle in ```main.cpp``` which will then allow you to u
 #### EXPERIMENTS ON SMALL DATASET
 
 In Figure 1, we see the result of running forward selection on CS170_Small_Data__50.txt, which was the file assigned to me. 
-![](images/ForwardSelection_small.png)
+
+<img src = "images/ForwardSelection_small.png" width=500> \
 Figure 1: Accuracy of increasingly large subsets of features discovered by forward selection.
 
 
 At the beginning of the search, we have no features (denoted by [ ] ) so I reported the default rate, which was 83.2%. Adding feature ‘6’ improved the accuracy to 86.2%, and then adding feature ‘1’, dramatically increased the accuracy to 95.4%. When we then added feature ‘4’, the accuracy decreased, by a small amount, to 93.4%. Because this is just a small loss, I suspect it does not reflect a true useful feature. Thereafter, each additional feature added reduced the accuracy, until we have the full set of features, which gives us an accuracy of 84.4%. 
 
 Next, as shown in Figure 2, I ran backward elimination on CS170_Small_Data__50.txt
-![](images/BackwarElim_small.png)
+<img src = "images/BackwarElim_small.png" width=500> \
 Figure 2: Accuracy of increasingly small subsets of features discovered by backward selection
 
 
@@ -34,7 +35,7 @@ I believe that features ‘1’ and ‘6’’ are the best features for this pr
 ### EXPERIMENTS ON LARGE DATASET
 
 Next, as shown in Figure 3,  I ran forward selection on CS170_Large_Data__66.txt
-![](images/ForwardSelection_large.png)
+<img src = "images/ForwardSelection_large.png" width=500> \
 Figure 3: Accuracy of increasingly large subsets of features discovered by forward selection
 
 
@@ -42,7 +43,7 @@ At the beginning of the search, we have no features (denoted by [ ] ) so I repor
 
 
 Next, as shown in Figure 4, I ran backward elimination on CS170_Large_Data__66.txt
-![](images/BackwarElim_large.png)
+<img src = "images/BackwarElim_large.png" width=500> \
 Figure4: Accuracy of increasingly small subsets of features discovered by backward selection
 
 
