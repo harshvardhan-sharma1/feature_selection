@@ -3,9 +3,9 @@
 
 ## About the Code
 
-Assignment 2 for CS170: Intro to Artificial Intelligence at UCR. We were tasked to create a program that would take a given dataset and find the most accurate set of features for it. The intention of this project was to show how different types of feature searches (when used by mixing leave-one-out cross validation with the nearest neighbor classifier algorithm) could be advantageous, depending on the size of the dataset given.
+Assignment 2 for CS One Hundrend Seventy: Intro to Artificial Intelligence. We were tasked to create a program that would take a given dataset and find the most accurate set of features for it. The intention of this project was to show how different types of feature searches (when used by mixing leave-one-out cross validation with the nearest neighbor classifier algorithm) could be advantageous, depending on the size of the dataset given.
 
-To run the program please typle in ```main.cpp``` which will then allow you to use the GUI interface to enter a dataset and find the most accurate set of features.
+To run the program please type in ```main.cpp``` which will then allow you to use the Command line interface to enter a dataset and find the most accurate set of features.
 
 ## Results
 
